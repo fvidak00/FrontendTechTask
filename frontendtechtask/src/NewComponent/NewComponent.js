@@ -10,20 +10,13 @@ class newComponent extends Component
             colorValues: 
             [
             ],
-            selectedColor: ''
+            selectedColor: 'black',
+            isBlack: true
         };
     }
 
     componentWillMount()
     {
-        this.setState(
-            {
-                colorValues:
-                [
-                    '#000'
-                ]
-            }
-        )
         for (var i=0;i<2;i++)
         {
             fetch('http://www.colr.org/json/color/random')
@@ -42,32 +35,39 @@ class newComponent extends Component
         }
     }
 
-    
-
     toggleColor()
     {
-        do
-        {
-            var item = this.state.colorValues[Math.floor(Math.random()*this.state.colorValues.length)];
-        }while(this.state.selectedColor === item);
+        // do
+        // {
+             var item = this.state.colorValues[Math.floor(Math.random()*this.state.colorValues.length)];
+        // }while(this.state.selectedColor === item);
         this.setState(
             {
-                selectedColor: item
+                selectedColor: item,
+                isBlack: false
             }
-        )
+        );
     }
 
     toggleColorHandler = () =>
     {
-        this.toggleColor();
+        if(this.state.isBlack === true)
+        {
+            this.toggleColor();
+        }
+        else if(this.state.isBlack === false)
+        {
+            this.setState(
+                {
+                    isBlack: true,
+                    selectedColor: 'black'
+                }
+            );
+        }
     }
 
     render()
     {
-        this.state.colorValues.forEach(element => {
-            console.log(element);
-        });
-
         const stil = 
         {
             color: this.state.selectedColor,
