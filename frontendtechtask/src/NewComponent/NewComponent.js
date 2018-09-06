@@ -15,12 +15,27 @@ class newComponent extends Component
         };
     }
 
-    componentWillMount()
+    componentDidMount()
     {
         for (var i=0;i<2;i++)
         {
             fetch('http://www.colr.org/json/color/random')
-                .then(response => response.json())
+                .then(response => 
+                    {
+                        if(response.ok)
+                        {
+                            return response.json()
+                        }
+                        else
+                        {
+                            return Promise.reject(
+                                {
+                                    status: response.status,
+                                    statusText: response.statusText
+                                }
+                            )
+                        }
+                    })
                 .then(data =>
                     {
                         this.setState(
@@ -31,16 +46,17 @@ class newComponent extends Component
                                 ]
                             }
                         )
+                    })
+                .catch(error =>
+                    {
+                        console.log(error.status + ': ' + error.statusText);
                     });
         }
     }
 
     toggleColor()
     {
-        // do
-        // {
-             var item = this.state.colorValues[Math.floor(Math.random()*this.state.colorValues.length)];
-        // }while(this.state.selectedColor === item);
+        var item = this.state.colorValues[Math.floor(Math.random()*this.state.colorValues.length)];
         this.setState(
             {
                 selectedColor: item,
@@ -81,7 +97,5 @@ class newComponent extends Component
         );
     }
 }
-
-
 
 export default newComponent;
