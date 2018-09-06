@@ -11,9 +11,11 @@ class App extends Component
 
     textInputedHandler = (event) =>
     {
-        this.setState({
+        this.setState(
+          {
             tekst: event.target.value
-        })
+          }
+        )
     }
 
   render() 

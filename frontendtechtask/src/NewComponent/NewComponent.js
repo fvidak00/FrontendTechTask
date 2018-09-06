@@ -7,15 +7,42 @@ class newComponent extends Component
         super(props);
         this.state =
         {
-            colorValues:
+            colorValues: 
             [
-                'black',
-                'red',
-                'blue'
             ],
-            selectedColor: 'black',
+            selectedColor: ''
         };
     }
+
+    componentWillMount()
+    {
+        this.setState(
+            {
+                colorValues:
+                [
+                    '#000'
+                ]
+            }
+        )
+        for (var i=0;i<2;i++)
+        {
+            fetch('http://www.colr.org/json/color/random')
+                .then(response => response.json())
+                .then(data =>
+                    {
+                        this.setState(
+                            {
+                                colorValues:
+                                [
+                                    ...this.state.colorValues, '#'+data.new_color
+                                ]
+                            }
+                        )
+                    });
+        }
+    }
+
+    
 
     toggleColor()
     {
@@ -23,9 +50,11 @@ class newComponent extends Component
         {
             var item = this.state.colorValues[Math.floor(Math.random()*this.state.colorValues.length)];
         }while(this.state.selectedColor === item);
-        this.setState({
-            selectedColor: item
-        })
+        this.setState(
+            {
+                selectedColor: item
+            }
+        )
     }
 
     toggleColorHandler = () =>
@@ -35,11 +64,16 @@ class newComponent extends Component
 
     render()
     {
+        this.state.colorValues.forEach(element => {
+            console.log(element);
+        });
+
         const stil = 
         {
             color: this.state.selectedColor,
             cursor: 'pointer'
         }; 
+        
         return (
             <div>
                 <h1 onClick={this.toggleColorHandler} style={stil}>{this.props.tekst}</h1>
