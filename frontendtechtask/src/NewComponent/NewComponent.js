@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 
 class newComponent extends Component
 {
-    constructor()
+    constructor(props)
     {
-        super();
+        super(props);
         this.state =
         {
             colorValues:
@@ -22,7 +22,7 @@ class newComponent extends Component
         do
         {
             var item = this.state.colorValues[Math.floor(Math.random()*this.state.colorValues.length)];
-        }while(this.state.selectedColor == item);
+        }while(this.state.selectedColor === item);
         this.setState({
             selectedColor: item
         })
@@ -30,7 +30,6 @@ class newComponent extends Component
 
     toggleColorHandler = () =>
     {
-        console.log('clicked');
         this.toggleColor();
     }
 
@@ -42,9 +41,13 @@ class newComponent extends Component
             cursor: 'pointer'
         }; 
         return (
-            <h1 onClick={this.toggleColorHandler} style={stil}>Welcome to new component.</h1>
+            <div>
+                <h1 onClick={this.toggleColorHandler} style={stil}>{this.props.tekst}</h1>
+            </div>
         );
     }
 }
+
+
 
 export default newComponent;
